@@ -1,4 +1,4 @@
-# AlanScan v6.0.0 - Complete Dependencies
+# AlanScan v4.0.0 - Complete Dependencies
 
 # Core
 requests>=2.31.0

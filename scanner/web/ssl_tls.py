@@ -23,14 +23,15 @@ OWASP Reference: A02:2021 – Cryptographic Failures
 CVEs covered: POODLE (SSLv3), BEAST (TLS1.0), CRIME, SWEET32 (3DES)
 """
 
-from ..scan_logger import logger
 import ssl
 import socket
 import datetime
 import re
 from urllib.parse import urlparse
 
+import config
 from ..base_scanner import BaseScanner
+from ..scan_logger import logger
 from .base_module import ScanContext
 
 WEAK_PROTOCOLS     = {"SSLv2", "SSLv3", "TLSv1", "TLSv1.1"}
@@ -270,7 +271,7 @@ class SSLScanner(BaseScanner):
             import urllib.request
             req = urllib.request.Request(
                 self.url,
-                headers={"User-Agent": "Mozilla/5.0 AlanScan/3.0"},
+                headers={"User-Agent": f"Mozilla/5.0 AlanScan/{config.VERSION}"},
             )
             with urllib.request.urlopen(req, timeout=self.timeout) as resp:
                 hsts = resp.headers.get("Strict-Transport-Security", "")

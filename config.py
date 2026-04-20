@@ -10,7 +10,7 @@ Modify these values to tune scan behaviour without touching core logic.
 SCAN_LOG_LEVEL = "INFO"
 
 # ── Tool Metadata ─────────────────────────────────────────────────────────────
-VERSION      = "3.1.0"
+VERSION      = "4.0.0"
 AUTHOR       = "Alain NDAYE"
 TOOL_URL     = "AlanScan — Masters Research Project"
 LICENSE      = "For authorised security assessments only"
@@ -918,7 +918,7 @@ SSRF_PARAM_HINTS = [
 CMDI_SEPARATORS = [";", "|", "||", "&&", "`", "$(", "&"]
 
 
-# ── Open Redirect Payloads (v3.1.0) ─────────────────────────────────────────
+# ── Open Redirect Payloads (v4.0.0) ─────────────────────────────────────────
 OPEN_REDIRECT_PAYLOADS = [
     "https://evil.com",
     "//evil.com",
@@ -933,14 +933,14 @@ OPEN_REDIRECT_PARAM_HINTS = [
     "redirectUrl", "next_url", "back", "forward",
 ]
 
-# ── IDOR Sensitive Parameters (v3.1.0) ───────────────────────────────────────
+# ── IDOR Sensitive Parameters (v4.0.0) ───────────────────────────────────────
 IDOR_SENSITIVE_PARAMS = [
     "id", "user_id", "account_id", "uid", "userid", "acct", "customer_id",
     "order_id", "invoice_id", "doc_id", "file_id", "record_id",
     "profile_id", "member_id", "pid", "rid",
 ]
 
-# ── Compliance Framework Mappings (v3.1.0) ───────────────────────────────────
+# ── Compliance Framework Mappings (v4.0.0) ───────────────────────────────────
 COMPLIANCE_FRAMEWORKS = {
     "PCI-DSS v4.0": {
         "SQL Injection": ["Req 6.2.4", "Req 6.3.2"],
@@ -967,7 +967,7 @@ COMPLIANCE_FRAMEWORKS = {
     },
 }
 
-# ── MITRE ATT&CK Mappings (v3.1.0) ───────────────────────────────────────────
+# ── MITRE ATT&CK Mappings (v4.0.0) ───────────────────────────────────────────
 MITRE_ATTACK_MAPPING = {
     "SQL Injection":               {"id": "T1190", "name": "Exploit Public-Facing Application", "tactic": "Initial Access"},
     "Reflected XSS":               {"id": "T1189", "name": "Drive-by Compromise",              "tactic": "Initial Access"},

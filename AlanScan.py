@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-AlanScan v3.1.0 — Advanced Hybrid AI-Augmented Vulnerability Scanner
+AlanScan v4.0.0 — Advanced Hybrid AI-Augmented Vulnerability Scanner
 =====================================================================
 Author  : Alain NDAYE
 Purpose : Automated Web & Network Vulnerability Assessment
@@ -259,7 +259,7 @@ def build_parser():
     p = argparse.ArgumentParser(
         prog="AlanScan",
         description=(
-            "AlanScan v3.1.0 — Hybrid AI-Augmented Vulnerability Scanner\n"
+            f"AlanScan v{config.VERSION} — Hybrid AI-Augmented Vulnerability Scanner\n"
             "Covers: SQLi · XSS · CSRF · SSRF · CMDi · XXE · LFI · Headers ·\n"
             "        SSL/TLS · Cookies · Directories · WAF · Ports · CVE · Chains · AI"
         ),

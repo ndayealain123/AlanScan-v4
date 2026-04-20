@@ -1,5 +1,5 @@
 """
-scanner/controller.py  v5.0.0
+scanner/controller.py  v4.0.0
 ===================================
 AlanScan Enterprise Orchestrator — BaseScanner-integrated web pipeline.
 
@@ -25,12 +25,16 @@ from urllib.parse import urlparse
 import config
 from .events import ScanEventKind, safe_scan_event_kind
 from .scan_logger import (
-    logger,
-    configure_scanner_console_logging,
+    LogConverter,
+    StructuredLogger,
     coerce_evidence_field,
+    configure_scanner_console_logging,
+    enrich_chain_record,
+    enrich_finding_record,
+    logger,
+    normalize_finding_row,
+    safe_str,
 )
-
-from .scan_logger import safe_str
 from .base_scanner import BaseScanner
 from .web.crawler import Crawler, count_query_parameters
 from .web.scan_targets import (
@@ -67,8 +71,6 @@ from .ai_analyst import (
     classify_ai_api_error,
     user_facing_ai_message_from_exc,
 )
-
-_SEV_RANK_DEDUPE = {"CRITICAL": 0, "HIGH": 1, "MEDIUM": 2, "LOW": 3, "INFO": 4}
 from .scoring_engine import ScoringEngine
 from .evidence_validator import EvidenceValidator
 from .report_enricher import enrich_findings
@@ -77,19 +79,15 @@ from .thread_manager import AdaptiveThreadPool, RequestThrottler, ThresholdGuard
 from .pentest_engine import PentestEngine, ScanState
 from . import observability
 from .schema import EVENT_VERSION, SCHEMA_VERSION
-from .scan_logger import (
-    StructuredLogger,
-    LogConverter,
-    enrich_chain_record,
-    enrich_finding_record,
-    normalize_finding_row,
-)
+from .request_stats import reset_http_request_total
 from reports.reporter import Reporter
 from reports.html_reporter import HTMLReporter
 from reports.pdf_reporter import PDFReporter
 
 from .web.base_module import ScanContext
 
+
+_SEV_RANK_DEDUPE = {"CRITICAL": 0, "HIGH": 1, "MEDIUM": 2, "LOW": 3, "INFO": 4}
 
 _K_FINDING_COUNT_MISMATCH = safe_scan_event_kind(
     "FINDING_COUNT_MISMATCH",
@@ -174,11 +172,10 @@ class ScannerController:
         self._scan_context: dict = {}
 
         self.scan_id = str(uuid.uuid4())
-        import config as _cfg
         _delay = float(
             request_delay_sec
             if request_delay_sec is not None
-            else getattr(_cfg, "SAFE_DEFAULT_DELAY_SEC", 0.1)
+            else getattr(config, "SAFE_DEFAULT_DELAY_SEC", 0.1)
         )
         self.request_delay_sec = _delay
         self.throttle_rps = float(throttle_rps)
@@ -286,9 +283,8 @@ class ScannerController:
         )
 
     def scan_web(self, url: str, depth: int = 3) -> None:
-        """Run full web scan with v5 thread/throttle/FSM pipeline."""
+        """Run full web scan with thread/throttle/FSM pipeline."""
         try:
-            from .request_stats import reset_http_request_total
             reset_http_request_total()
         except Exception:
             pass
@@ -697,7 +693,6 @@ class ScannerController:
     def scan_network(self, host: str) -> None:
         """Network scan with throttle + FSM."""
         try:
-            from .request_stats import reset_http_request_total
             reset_http_request_total()
         except Exception:
             pass

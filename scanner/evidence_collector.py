@@ -22,6 +22,7 @@ import re
 import textwrap
 from typing import Optional
 
+import config
 from .scan_logger import logger
 
 try:
@@ -112,7 +113,7 @@ class HTTPEvidenceCapture:
             return {}
 
         req_headers = {
-            "User-Agent": "Mozilla/5.0 (AlanScan/3.5 Enterprise)",
+            "User-Agent": f"Mozilla/5.0 (AlanScan/{config.VERSION})",
             "Accept":     "*/*",
         }
         if headers:
@@ -274,7 +275,7 @@ class HTTPEvidenceCapture:
                 "request_dump":  (
                     f"GET {base_url}?{param}={payload} HTTP/1.1\n"
                     f"Host: {base_url.replace('https://','').replace('http://','').split('/')[0]}\n"
-                    f"User-Agent: Mozilla/5.0 (AlanScan/3.5 Enterprise)"
+                    f"User-Agent: Mozilla/5.0 (AlanScan/{config.VERSION})"
                 ),
                 "response_body": (
                     "(Live capture unavailable — reproduce manually with curl:\n"
