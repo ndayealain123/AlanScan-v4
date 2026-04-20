@@ -1,0 +1,17 @@
+# AlanScan v6.0.0 - Complete Dependencies
+
+# Core
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+colorama>=0.4.6
+lxml>=4.9.0
+urllib3>=2.0.0
+reportlab>=4.0.0
+chardet>=5.0.0
+
+# Advanced Detection
+selenium>=4.15.0
+webdriver-manager>=4.0.0
+
+# AI (optional)
+anthropic>=0.18.0
